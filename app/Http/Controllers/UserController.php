@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\User\UserStoreRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
+    private User $userService;
+
+    public function __construct(User $userService) {
+        $this->userService = $userService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -74,15 +78,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::where([
-            ['email', '=', $request->email]
-        ])->firstOrFail();
-
-        if (!Hash::check($request->password, $user->password)) {
-            throw new UnauthorizedException("Senha inválida");
-        }
-
-        $token = $user->createToken('Token usuário');
+        $token = $this->userService->login($request->email, $request->password);
 
         return response()->json([
             "token" => $token->plainTextToken

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\UnauthorizedException;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -51,5 +53,19 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function login(string $email, string $password) {
+        $user = User::where([
+            ['email', '=', $email]
+        ])->firstOrFail();
+
+        if (!Hash::check($password, $user->password)) {
+            throw new UnauthorizedException("Senha inválida");
+        }
+
+        $token = $user->createToken('Token usuário');
+
+        return $token;
     }
 }

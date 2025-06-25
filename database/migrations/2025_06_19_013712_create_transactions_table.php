@@ -17,7 +17,6 @@ return new class extends Migration
             $table->enum('type', ['receita', 'despesa']);
             $table->string('description');
             $table->decimal('amount', 10, 2);
-            // TODO default date
             $table->date('transaction_date');
             $table->timestamps();
         });

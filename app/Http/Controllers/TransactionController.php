@@ -11,26 +11,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionController extends Controller
 {
+    private Transaction $transactionService;
+
+    public function __construct(Transaction $transactionService) {
+        $this->transactionService = $transactionService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $user = $request->user();
         $perPage = $request->integer('per_page', 20);
         $transactionType = $request->enum('tipo', TransactionTypes::class);
-        $data_transacao = $request->date('data_transacao');
+        $transactionDate = $request->date('data_transacao');
 
-        $query = Transaction::query();
-
-        if (!empty($transactionType)) {
-            $query->where('type', $transactionType);
-        }
-
-        if (!empty($data_transacao)) {
-            $query->where('transaction_date', $data_transacao);
-        }
-
-        return JsonResource::collection($query->paginate($perPage));
+        return JsonResource::collection($this->transactionService->getTransactionsFromUser($user, $perPage, $transactionType, $transactionDate));
     }
 
     /**
@@ -38,7 +35,6 @@ class TransactionController extends Controller
      */
     public function store(TransactionStoreRequest $request)
     {
-        $request['transaction_date'] = date("Y-m-d");
         $request['user_id'] = $request->user()->id;
         $transaction = Transaction::create($request->all());
 
@@ -59,7 +55,6 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // TODO Permitir alterar o campo transaction_date?
     public function update(TransactionUpdateRequest $request, int $id)
     {
         $transaction = Transaction::findOrFail($id);
@@ -89,19 +84,9 @@ class TransactionController extends Controller
     public function relatorio(Request $request)
     {
         $user = $request->user();
-        // $id = Auth::id();
 
-        $relatorio = Transaction::whereBelongsTo($user)
-            ->selectRaw('SUM(CASE WHEN type = ? THEN amount ELSE 0 END) AS total_receitas', ['receita'])
-            ->selectRaw('SUM(CASE WHEN type = ? THEN amount ELSE 0 END) AS total_despesas', ['despesa'])
-            ->groupBy('user_id')
-            // ->with('user')
-            ->first();
+        $relatorio = $this->transactionService->getRelatorioFromUser($user);
 
-        $relatorio['saldo_total'] = number_format($relatorio['total_receitas'] - $relatorio['total_despesas'], 2);
-
-        return response()->json([
-            $relatorio
-        ]);
+        return response()->json($relatorio);
     }
 }

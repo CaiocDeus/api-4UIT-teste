@@ -18,6 +18,7 @@ class TransactionUpdateRequest extends TransactionStoreRequest
             'type' => [Rule::enum(TransactionTypes::class)],
             'description' => ['string'],
             'amount' => ['decimal:2'],
+            'transaction_date' => [Rule::date()->format('Y-m-d')]
         ];
     }
 }

@@ -21,12 +21,10 @@ class UserTransactionSeeder extends Seeder
             'password' => 'admin',
         ]);
 
-        // Cria 9 usuários
         User::factory()
             ->count(9)
             ->create()
             ->each(function ($user) {
-                // Para cada usuário, cria 10 transações
                 Transaction::factory()
                     ->count(10)
                     ->state(new Sequence(

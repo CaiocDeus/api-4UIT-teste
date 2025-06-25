@@ -21,6 +21,7 @@ class TransactionStoreRequest extends FormRequest
             'type' => ['required', Rule::enum(TransactionTypes::class)],
             'description' => ['required', 'string'],
             'amount' => ['required', 'decimal:2'],
+            'transaction_date' => ['required', Rule::date()->format('Y-m-d')]
         ];
     }
 

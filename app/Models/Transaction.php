@@ -44,4 +44,30 @@ class Transaction extends Model
             'type' => TransactionTypes::class
         ];
     }
+
+    public function getTransactionsFromUser(User $user, int $perPage, TransactionTypes|null $transactionType, string|null $transactionDate) {
+        $query = Transaction::whereBelongsTo($user);
+
+        if (!empty($transactionType)) {
+            $query->where('type', $transactionType);
+        }
+
+        if (!empty($transactionDate)) {
+            $query->where('transaction_date', $transactionDate);
+        }
+
+        return $query->paginate($perPage);
+    }
+
+    public function getRelatorioFromUser(User $user) {
+        $relatorio = Transaction::whereBelongsTo($user)
+            ->selectRaw('SUM(CASE WHEN type = ? THEN amount ELSE 0 END) AS total_receitas', ['receita'])
+            ->selectRaw('SUM(CASE WHEN type = ? THEN amount ELSE 0 END) AS total_despesas', ['despesa'])
+            ->groupBy('user_id')
+            ->first();
+
+        $relatorio['saldo_total'] = number_format($relatorio['total_receitas'] - $relatorio['total_despesas'], 2, '.', '');
+
+        return $relatorio;
+    }
 }
