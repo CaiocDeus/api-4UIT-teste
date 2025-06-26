@@ -11,10 +11,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionController extends Controller
 {
-    private Transaction $transactionService;
+    private Transaction $transactionModel;
 
-    public function __construct(Transaction $transactionService) {
-        $this->transactionService = $transactionService;
+    public function __construct(Transaction $transactionModel) {
+        $this->transactionModel = $transactionModel;
     }
 
     /**
@@ -27,7 +27,7 @@ class TransactionController extends Controller
         $transactionType = $request->enum('tipo', TransactionTypes::class);
         $transactionDate = $request->date('data_transacao');
 
-        return JsonResource::collection($this->transactionService->getTransactionsFromUser($user, $perPage, $transactionType, $transactionDate));
+        return JsonResource::collection($this->transactionModel->getTransactionsFromUser($user, $perPage, $transactionType, $transactionDate));
     }
 
     /**
@@ -85,7 +85,7 @@ class TransactionController extends Controller
     {
         $user = $request->user();
 
-        $relatorio = $this->transactionService->getRelatorioFromUser($user);
+        $relatorio = $this->transactionModel->getRelatorioFromUser($user);
 
         return response()->json($relatorio);
     }

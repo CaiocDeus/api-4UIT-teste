@@ -10,10 +10,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
-    private User $userService;
+    private User $userModel;
 
-    public function __construct(User $userService) {
-        $this->userService = $userService;
+    public function __construct(User $userModel) {
+        $this->userModel = $userModel;
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $token = $this->userService->login($request->email, $request->password);
+        $token = $this->userModel->login($request->email, $request->password);
 
         return response()->json([
             "token" => $token->plainTextToken
