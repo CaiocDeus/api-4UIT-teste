@@ -66,7 +66,7 @@ class Transaction extends Model
             ->groupBy('user_id')
             ->first();
 
-        $relatorio['saldo_total'] = number_format($relatorio['total_receitas'] - $relatorio['total_despesas'], 2, '.', '');
+        if (!empty($relatorio)) $relatorio['saldo_total'] = number_format($relatorio['total_receitas'] - $relatorio['total_despesas'], 2, '.', '');
 
         return $relatorio;
     }
