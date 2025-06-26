@@ -1,61 +1,320 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>Teste Técnico Desenvolvedor Pleno</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Objetivo
+<p>Desenvolver um sistema para controle de finanças pessoais, com cadastro de usuários, lançamento de receitas e despesas, visualização de saldo e filtros.</p>
 
-## About Laravel
+## Pré-requisitos
+- Frontend: Angular 16+
+- Backend: PHP 7.4+ (Slim ou Laravel)
+- Banco de Dados: MySQL
+- Hospedagem:
+- Frontend: Vercel, SimplyFy, Netlify ou similar
+- Backend: Railway, Render, Freehost ou similar
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Hospedagem
+- Link do repositório do frontend: https://github.com/CaiocDeus/app-4UIT-teste
+- Link do backend hospedado: https://api-4uit-teste-production.up.railway.app
+- Link do frontend hospedado: https://app-4-uit-teste.vercel.app
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tecnologias Utilizadas
+![Laravel](https://img.shields.io/badge/Laravel-v12-FF2D20?style=for-the-badge&logo=laravel&logoColor=FF4A4A)
+![MySQL](https://img.shields.io/badge/MySQL-73618F?style=for-the-badge&logo=mysql&logoColor=white)
+![Eloquent](https://img.shields.io/badge/eloquent-ff5733?style=for-the-badge&color=FE2D20)
+![Docker](https://img.shields.io/badge/docker-blue?style=for-the-badge&logo=docker)
 
-## Learning Laravel
+<hr>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🎲 Banco de Dados
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<p>
+O banco de dados está estruturado da seguinte maneira:</p>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- users: id, name, email, password
+- transactions: id, user_id, type, description, amount, transaction_date
 
-## Laravel Sponsors
+<br>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ✨ Funcionalidades
+- Cadastro de usuário
+- Login por e-mail e senha
+- Cadastro de transações (receita ou despesa)
+- Listagem de transações com filtros por período e tipo
+- Edição e exclusão de transações
+- Sumarização de: Saldo total, Total de receitas e Total de despesas
 
-### Premium Partners
+<p><strong>Observação</strong>: Todas as rotas exigem <strong>autenticação</strong> menos Login e Realizar Cadastro</p>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+<br>
 
-## Contributing
+## ⚙️ Executando a aplicação
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Para executar o projeto localmente, siga os passos abaixo:
 
-## Code of Conduct
+### Instalação
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1. Clone o repositório:
 
-## Security Vulnerabilities
+```
+ git clone https://github.com/CaiocDeus/api-4UIT-teste.git
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. Vá para a pasta do projeto:
 
-## License
+```
+cd api-4UIT-teste
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. Instale as dependências do projeto:
+
+```
+composer install
+```
+
+4. Configurar o arquivo de ambiente (.env):
+
+```
+cp .env.example .env
+```
+
+5. Suba os containers do projeto com o comando: (É preciso ter o Docker instalado)
+
+```
+./vendor/bin/sail up -d
+```
+
+6. Rode o seguinte comando para criar as tabelas no BD:
+
+```
+./vendor/bin/sail artisan migrate
+```
+
+7. Rode o seguinte comando para preencher o BD com dados nas tabelas:
+
+```
+./vendor/bin/sail artisan db:seed
+```
+
+8. Após isso, você poderá fazer as requisições seguindo os passos da seção logo abaixo.
+
+<br>
+
+## 📑 Documentação da API
+
+### Funcionalidades dos usuários em rotas públicas.
+
+<details>
+  <summary>Logar na rota /api/user/login</summary>
+
+  <code>POST</code> <code>/api/user/login</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Content-Type` | `application/json` | **Obrigatório** -> Tipo de mídia dos dados que estão sendo enviados na requisição |
+
+  | Parâmetros Body   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `email` | `string` | **Obrigatório** -> Email do usuário |
+  | `password` | `string` | **Obrigatório** -> Senha do usuário |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+      "token": "1|KNupIm0xOoPe3rC94EeWi9HcMFKg4ByqmP3ZpP5Bb3c8ec1d"
+    }
+</details>
+
+<details>
+  <summary>Realizar Cadastro na rota /api/user/register</summary>
+
+  <code>POST</code> <code>/api/user</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Content-Type` | `application/json` | **Obrigatório** -> Tipo de mídia dos dados que estão sendo enviados na requisição |
+
+  | Parâmetros Body   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `email` | `string` | **Obrigatório** -> Email do usuário |
+  | `password` | `string` | **Obrigatório** -> Senha do usuário |
+
+  #### Exemplo de retorno
+
+  <p>Status: 201 Created</p>
+    {
+      "id": "5"
+      "message": "Usuário criado"
+    }
+</details>
+
+<hr>
+
+### Funcionalidades das transações em rotas autenticadas.
+
+<details>
+  <summary>Obter informações das transações na rota /api/transaction</summary>
+
+  <code>GET</code> <code>/api/transaction</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    [
+      {
+        "id": 1,
+        "user_id": 2,
+        "type": "receita",
+        "description": "Voluptatem quisquam culpa nemo accusantium eveniet.",
+        "amount": "401.37",
+        "transaction_date": "2002-12-01",
+        "created_at": "2025-06-26T01:28:50.000000Z",
+        "updated_at": "2025-06-26T01:28:50.000000Z"
+      },
+      {
+        "id": 2,
+        "user_id": 2,
+        "type": "despesa",
+        "description": "Asperiores id sunt ut illum assumenda cumque vero.",
+        "amount": "595.96",
+        "transaction_date": "1975-12-11",
+        "created_at": "2025-06-26T01:28:50.000000Z",
+        "updated_at": "2025-06-26T01:28:50.000000Z"
+      }
+    ]
+
+</details>
+
+<details>
+  <summary>Obter informação de uma transação na rota /api/transaction/{id}</summary>
+
+  <code>GET</code> <code>/api/transaction/{id}</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  | Parâmetro via Request   | Tipo       | Descrição               |
+  | :---------- | :--------- | :---------------------------------- |
+  | `id` | `string` | **Obrigatório** ->  ID da transação |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+      "id": "24",
+      "user_id": "5",
+      "type": "receita",
+      "description": "Voluptatem quisquam culpa nemo accusantium eveniet",
+      "amount": "110.48",
+      "transaction_date": "2002-12-01",
+      "created_at": "2025-03-10T21:25:29.000000Z",
+      "updated_at": "2025-03-10T21:25:29.000000Z",
+    }
+</details>
+
+<details>
+  <summary>Realizar uma transação na rota /api/transaction</summary>
+
+  <code>POST</code> <code>/api/transaction</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Content-Type` | `application/json` | **Obrigatório** -> Tipo de mídia dos dados que estão sendo enviados na requisição |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  | Parâmetros Body   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `type` | `string` | **Obrigatório** -> Tipo da transação |
+  | `description` | `number` | **Obrigatório** -> Descrição da transação |
+  | `amount` | `number` | **Obrigatório** -> Valor da transação |
+  | `transaction_date` | `string` | **Obrigatório** -> Data da transação |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+      "message": "Transação criada"
+    }
+</details>
+
+<details>
+  <summary>Alterar uma transação na rota /api/transaction</summary>
+
+  <code>PUT</code> <code>/api/transaction</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Content-Type` | `application/json` | **Obrigatório** -> Tipo de mídia dos dados que estão sendo enviados na requisição |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  | Parâmetros Body   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `type` | `string` | Tipo da transação |
+  | `description` | `number` | Descrição da transação |
+  | `amount` | `number` | Valor da transação |
+  | `transaction_date` | `string` | Data da transação |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+      "message": "Transação atualizada"
+    }
+</details>
+
+<details>
+  <summary>Exclusão de uma transação na rota /api/transaction/{id}</summary>
+
+  <code>DELETE</code> <code>/api/transaction/{id}</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  | Parâmetro via Request   | Tipo       | Descrição               |
+  | :---------- | :--------- | :---------------------------------- |
+  | `id` | `string` | **Obrigatório** ->  ID da transação |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+      "message": "Usuário deletada"
+    }
+</details>
+
+<details>
+  <summary>Sumarização de: Saldo total, Total de receitas e Total de despesas do usuário logado na rota /api/transaction/relatorio</summary>
+
+  <code>GET</code> <code>/api/transaction/relatorio</code>
+
+  | Headers   | Tipo       | Descrição                           |
+  | :---------- | :--------- | :---------------------------------- |
+  | `Authorization` | `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` | **Obrigatório** -> Seu token gerado no login |
+
+  #### Exemplo de retorno
+
+  <p>Status: 200 OK</p>
+    {
+        "total_receitas": "3138.64",
+        "total_despesas": "1571.02",
+        "saldo_total": "1567.62"
+    }
+</details>
+
+<hr>
+
+## Autor
+
+Caio Cesar de Deus
+
+<hr>
+
+## 📫 Contato
+[![Linkedin](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/caio-deus/)
+[![Email](https://img.shields.io/badge/Microsoft_Outlook-0078D4?style=for-the-badge&logo=microsoft-outlook&logoColor=white)](mailto:caioc.deus@outlook.com)
