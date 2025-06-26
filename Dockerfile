@@ -1,5 +1,7 @@
 FROM richarvey/nginx-php-fpm:latest
 
+COPY .env /var/www/html/.env
+
 COPY . .
 
 # Image config
