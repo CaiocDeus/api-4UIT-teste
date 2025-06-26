@@ -17,3 +17,5 @@ php artisan migrate --force
 
 echo "Running seeders..."
 php artisan db:seed
+
+php artisan route:list
