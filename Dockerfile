@@ -1,20 +1,35 @@
-FROM richarvey/nginx-php-fpm:latest
+FROM php:8.4.8-cli
 
-COPY . /var/www/html
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    unzip \
+    zip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    libsodium-dev \
+    libpq-dev \
+    default-mysql-client \
+    default-libmysqlclient-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_pgsql pdo_mysql mbstring exif pcntl bcmath gd zip sodium
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash && \
+    apt-get update && apt-get install -y nodejs
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+WORKDIR /var/www/html
 
-CMD ["/start.sh"]
+COPY . .
+
+EXPOSE 8000
+
+RUN composer install
+RUN npm install
+
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
